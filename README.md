@@ -1,1 +1,1 @@
-# segmentify-widgets
+# slider-widgets
