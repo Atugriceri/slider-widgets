@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Segmentify Widgets</title>
+  <!-- Tiny Slider -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css">
+  <!-- Bootstrap 5.0.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;500;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <!-- Container -->
+  <div class="container text-center my-5" id="app"></div>
+
+  <!-- Bootstrap Bundle Min JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
+  <!-- jQuery -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Tiny Slider JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+
+
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+
+      $.getJSON("product.json", function (data) {
+
+        let landArr = []
+        let regionArr = []
+        let artArr = []
+        let oldPriceArr = []
+        let discountArr = []
+        let likeArr = []
+        let isNewArr = []
+
+        for (let i = 0; i < 30; i++) {
+          data[i].params.isNew === "true" ? isNewArr.push("NEU") : isNewArr.push("")
+          data[i].params.likeCount ? likeArr.push(data[i].params.likeCount) : likeArr.push("")
+          if (data[i].oldPrice) {
+            discountArr.push((Math.round(Math.abs((data[i].price - data[i].oldPrice) * 100 / data[i].oldPrice) * -1)).toString())
+            oldPriceArr.push(data[i].oldPrice.toFixed(1) + "€*")
+          } else {
+            oldPriceArr.push("")
+            discountArr.push("")
+          }
+        }
+
+        for (let i = 0; i < 30; i++) {
+          data[i].params.land ? landArr.push(`${data[i].params.land}`) : landArr.push("")
+          data[i].params.region ? regionArr.push(`| ${data[i].params.region}`) : regionArr.push("")
+          data[i].params.art ? artArr.push(`| ${data[i].params.art}`) : artArr.push("")
+        }
+
+        for (let j = 0; j < data.length; j += 10) {
+          
+          document.querySelector('#app').innerHTML += `<div class="my-slider my-slider-${j}"></div>`
+
+          for (let i = j; i < j + 10; i++) {
+            $('.my-slider-' + j).append(`
+            <div>
+              <div class="slide-item ms-3 me-3">
+                <div class="card h-100">
+                  <div class="position-relative text-center slide-item-${i}">
+                    <img src=${data[i].image} class="card-img-top mh-100 mx-auto mt-3">
+                  </div>
+                  <div class="card-body">
+                    <h2 class="card-title fs-6 fw-bolder mb-3">
+                    ${data[i].name}
+                    </h2>
+                    <p class="card-text features fw-light">
+                    ${landArr[i]} ${regionArr[i]} ${artArr[i]}
+                    </p>
+                    <p class="card-text price-text fs-5 fw-bold">
+                      <span>
+                      ${data[i].priceText.substring(1)}€*
+                      </span>
+                      <span class="text-decoration-line-through text-secondary">
+                      ${oldPriceArr[i]}
+                      </span>
+                    </p>
+                    <p class="base-price card-text position-absolute bottom-0 start-50 translate-middle-x fw-light mb-2">
+                    ${data[i].params.basePrice}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            `);
+
+
+        if (discountArr[i]) {
+        $('.slide-item-' + i).append(`
+          <span class="badge bg-danger d-inline position-absolute top-0 start-0 mt-2">
+          ${discountArr[i]} %
+          </span>
+          `) 
+          if (likeArr[i]) {
+            $('.slide-item-' + i).append(`
+              <span class="badge bg-light text-danger position-absolute top-0 start-0 mt-5">
+              <i class="bi bi-suit-heart"></i>
+              ${likeArr[i]}
+              </span>
+              `)}
+              if (isNewArr[i]) {
+                $('.slide-item-' + i).append(`
+                  <span class="badge bg-dark d-inline position-absolute top-0 start-0 mt-5">
+                  ${isNewArr[i]}
+                  </span>
+                  `)}} else {
+                    if (likeArr[i]) {
+                      $('.slide-item-' + i).append(`
+                        <span class="badge bg-light text-danger position-absolute top-0 start-0 mt-2">
+                        <i class="bi bi-suit-heart"></i>
+                        ${likeArr[i]}</span>
+                        `)
+                          if (isNewArr[i]) {
+                            $('.slide-item-' + i).append(`
+                              <span class="badge bg-dark d-inline position-absolute top-0 start-0 mt-2 fw-bolder">
+                              ${isNewArr[i]}
+                              </span>
+                              `)}}}};
+                            }
+        let slider = tns({
+          container: '.my-slider-' + 0,
+          items: 2,
+          slideBy: 'page',
+          autoplay: false,
+          fixedWith: 400,
+          mouseDrag: true,
+          controlsText: ["<", ">"],
+          navPosition: "bottom",
+          responsive: {
+            640: {
+              items: 2
+            },
+            1000: {
+              items: 5
+            },
+            1400: {
+              items: 5
+            }
+          }
+        })
+
+        slider += tns({
+          container: '.my-slider-' + 10,
+          items: 2,
+          slideBy: 'page',
+          autoplay: false,
+          fixedWith: 400,
+          mouseDrag: true,
+          controlsText: ["<", ">"],
+          navPosition: "bottom",
+          responsive: {
+            640: {
+              items: 2
+            },
+            1000: {
+              items: 5
+            },
+            1400: {
+              items: 5
+            }
+          }
+        })
+
+        slider += tns({
+          container: '.my-slider-' + 20,
+          items: 2,
+          slideBy: 'page',
+          autoplay: false,
+          fixedWith: 400,
+          mouseDrag: true,
+          controlsText: ["<", ">"],
+          navPosition: "bottom",
+          responsive: {
+            640: {
+              items: 2
+            },
+            1000: {
+              items: 5
+            },
+            1400: {
+              items: 5
+            }
+          }
+        })
+      })
+    })
+
+  </script>
+  
+</body>
+
+</html>

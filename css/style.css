@@ -1,0 +1,130 @@
+body {
+  font-family: Oswald;
+}
+
+.card {
+  height: 450px !important;
+  border-width: 1px;
+  border-color: rgb(180, 180, 180);
+  margin: 2px;
+}
+
+.card:hover {
+  border-color: rgb(139, 139, 139);
+  box-shadow: 1px 1px 60px #88888828;
+}
+
+.card-img-top {
+  width: 30% !important;
+  object-fit: cover !important;
+}
+
+
+.base-price {
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.features {
+  font-size: 14px !important;
+  letter-spacing: 2px;
+}
+
+.price-text {
+  letter-spacing: 2px;
+}
+
+.badge {
+  padding:0.6rem;
+  border-radius: 0;
+  font-size: 18px;
+  font-weight: 300;
+  width: 25%;
+}
+
+/***** Slider Arrow and Nav Settings *****/
+
+.tns-nav button {
+  font-size: 16px;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 2px;
+  padding: 3px 8px;
+  margin: 2px;
+  margin-bottom: 2rem;
+  background-color:rgb(129, 129, 129);
+}
+
+.tns-nav-active {
+  background-color:rgb(20, 20, 20) !important;
+}
+
+.tns-controls button {
+  background-color:rgba(255, 255, 255, 0);
+  border: none;
+  text-decoration: none;
+  font-size: 25px;
+  margin: 0 300px;
+}
+
+#tns1-ow .tns-controls [data-controls=prev] {
+  position: absolute;
+  top:250px;
+  left: -200px;
+}
+
+#tns1-ow .tns-controls [data-controls=next] {
+  position: absolute;
+  top: 250px;
+  right: -200px;
+}
+
+#tns2-ow .tns-controls [data-controls=prev] {
+  position: absolute;
+  top:750px;
+  left: -200px;
+}
+
+#tns2-ow .tns-controls [data-controls=next] {
+  position: absolute;
+  top: 750px;
+  right: -200px;
+}
+
+#tns3-ow .tns-controls [data-controls=prev] {
+  position: absolute;
+  top:1250px;
+  left: -200px;
+}
+
+#tns3-ow .tns-controls [data-controls=next] {
+  position: absolute;
+  top: 1250px;
+  right: -200px;
+}
+
+@media only screen and (max-width: 640px) {
+
+  .card-title, .price-text {
+    font-size:13px !important;
+  }
+
+  .card, .slide-item {
+    height: 380px !important;
+    margin: 2px !important;
+  }
+  
+  .features, .base-price {
+    font-size: 10px !important;
+    font-weight: 400 !important;
+  }
+
+  .badge {
+    font-size: 13px !important;
+    font-weight: 400;
+    width: 25%;
+    padding:8px 0;
+  }
+
+}
